@@ -1,0 +1,11 @@
+# Dataset
+UrbanSound8K/
+UrbanSound8K.tar.gz
+
+# Data Chunks
+audio-data-extraction/chunks/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+.idea/
