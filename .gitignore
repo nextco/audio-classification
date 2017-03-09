@@ -9,3 +9,6 @@ audio-data-extraction/chunks/
 .ipynb_checkpoints
 
 .idea/
+
+# cache
+audio-data-extraction/utils/__pycache__/

@@ -1,31 +1,26 @@
 import librosa
 import numpy as np
+np.set_printoptions(threshold=np.nan)
+
 import tensorflow as tf
+import sys
 
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
-# Fuentes por defecto para windows
-plt.rcParams['font.family'] = 'Arial'
-plt.rcParams['font.serif'] = 'sans-serif'
-plt.rcParams['font.monospace'] = 'Courier New'
+# Own Timing WTF import
+import importlib
+module_with_hyphen = importlib.import_module('audio-data-extraction.utils.timing')
+module_with_hyphen.main()
 
-plt.rcParams['font.size'] = 12
-plt.rcParams['axes.labelsize'] = 11
-plt.rcParams['axes.labelweight'] = 'bold'
-plt.rcParams['axes.titlesize'] = 14
-plt.rcParams['xtick.labelsize'] = 10
-plt.rcParams['ytick.labelsize'] = 10
-plt.rcParams['legend.fontsize'] = 11
-plt.rcParams['figure.titlesize'] = 13
-
-# sound_data = np.load('audio-data-extraction/urban-sound.npz')
-sound_data = np.load('audio-data-extraction/chunks/urban-sound-0.npz')
+# Data
+sound_data = np.load('audio-data-extraction/urban-sound-from-metadata.npz')
 X_data = sound_data['X']
 y_data = sound_data['y']
 
 # Explorando los datos
 print(X_data.shape, y_data.shape)
+print(y_data)
 
 # Definir porcentaje de entrenamiento y prueba
 from sklearn.model_selection import train_test_split
@@ -36,7 +31,7 @@ print(len(X_train), len(X_val), len(X_test), len(y_train), len(y_val), len(y_tes
 
 # Variables del modelo
 training_epochs = 6000
-n_dim = 193 # El modelo tiene 193 caracteristicas extraidas con librosa
+n_dim = 193  # El modelo tiene 193 caracteristicas extraidas con librosa
 n_classes = 10
 n_hidden_units_one = 300
 n_hidden_units_two = 200
@@ -45,8 +40,8 @@ learning_rate = 0.1
 sd = 1 / np.sqrt(n_dim)
 
 # Variables de Tf
-X = tf.placeholder(tf.float32, [None,n_dim])
-Y = tf.placeholder(tf.float32, [None,n_classes])
+X = tf.placeholder(tf.float32, [None, n_dim])
+Y = tf.placeholder(tf.float32, [None, n_classes])
 
 W_1 = tf.Variable(tf.random_normal([n_dim, n_hidden_units_one], mean=0, stddev=sd), name="w1")
 b_1 = tf.Variable(tf.random_normal([n_hidden_units_one], mean=0, stddev=sd), name="b1")
@@ -71,7 +66,7 @@ y_ = tf.nn.softmax(tf.matmul(h_3, W) + b)
 cost_function = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(y_), reduction_indices=[1]))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost_function)
 
-correct_prediction = tf.equal(tf.argmax(y_,1), tf.argmax(Y,1))
+correct_prediction = tf.equal(tf.argmax(y_, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 saver = tf.train.Saver()
@@ -82,11 +77,11 @@ cost_history = np.empty(shape=[1], dtype=float)
 session = tf.Session()
 session.run(tf.global_variables_initializer())
 for epoch in range(training_epochs):
-    _,cost = session.run([optimizer, cost_function], feed_dict={X: X_sub, Y: y_sub})
-    cost_history = np.append(cost_history,cost)
+    _, cost = session.run([optimizer, cost_function], feed_dict={X: X_sub, Y: y_sub})
+    cost_history = np.append(cost_history, cost)
 
 print('Validation accuracy: ',round(session.run(accuracy, feed_dict={X: X_test, Y: y_test}), 3))
-saver.save(session, "./model-ckpt/model_backup_6k.ckpt")
+saver.save(session, "./model-ckpt/trained_py_6k.ckpt")
 
 # Imprimir costo de Entrenamiento
 plt.plot(cost_history)

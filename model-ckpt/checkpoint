@@ -1,2 +1,2 @@
-model_checkpoint_path: "model_backup_6k.ckpt"
-all_model_checkpoint_paths: "model_backup_6k.ckpt"
+model_checkpoint_path: "trained_py_variation_6k.ckpt"
+all_model_checkpoint_paths: "trained_py_variation_6k.ckpt"

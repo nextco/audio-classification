@@ -1,7 +1,7 @@
 # Audio Classification - Multilayer Neural Networks using TensorFlow
 
 ## Summary
-85.8% Accuracy,  Input data: 8732 samples of 4s, Test size: 20% of total
+82.2% Accuracy,  Input data: 8732 samples of 4s, Test size: 20% of total
 
 ## Data Set
 [UrbanSound8K](https://serv.cusp.nyu.edu/projects/urbansounddataset/urbansound8k.html)
@@ -13,14 +13,16 @@
 
 ## Structure - Summary
 <pre>
-	/multilayer-neural-network	  - Multilayer 85.80% accuracy
-	/neural-network-adam.py       - {Method} xX% accuracy  
+	/audio-data-extraction/feature-extraction-metadata.py 	- Time execution: 1h 5m
+	/audio-data-extraction/feature-extraction-bruteloop.py 	- Time execution: 1h 19m
+	/multilayer-neural-network-data-variation.py	  		- Time execution: 11m 48s,  82.2% accuracy
+	/multilayer-neural-network.py	  						- Time execution: 13m 17s,  76% accuracy
+	/multilayer-neural-network.ipynb	  					- Time execution: 11m  	,   72.7% accuracy
+
+	/neural-network-adam.py       							- {Method} xX% accuracy  
 </pre>
 
 ![](img/plot-single.png)
-![](img/plot-multiple-a.png)
-![](img/plot-multiple-b.png)
-![](img/plot-multiple-c.png)
 ![Technique for extracting data](img/sampling.gif)
 
 

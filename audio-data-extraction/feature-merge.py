@@ -15,4 +15,4 @@ print(X.shape, y.shape)
 for r in y:
     if np.sum(r) > 1.5:
         print(r)
-np.savez('urban_sound-from-bruteloop', X=X, y=y)
+np.savez('urban-sound-from-bruteloop', X=X, y=y)
